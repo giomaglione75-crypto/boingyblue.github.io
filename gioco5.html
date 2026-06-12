@@ -1,0 +1,323 @@
+
+<div class="boingy-container" style="border: 4px solid #ff6b6b;">
+
+  <!-- HEADER STYLISED AFTER EXAMPLE -->
+  <div class="boingy-header">
+    <h1>🌈 Gioco del Parco Magico! 🎠</h1>
+    <p>💡 Missione: Chiama lo Strumento da Gioco Corretto!</p>
+  </div >
+
+  <!-- INTRO STYLISED AFTER EXAMPLE -->
+  <p class="intro-text">
+    Ciao Super Esploratore dei Giochi! Il Parco Magico è pieno di meraviglie, ma a volte i giochi si confondono. Per aiutare Boingy, devi guardare l'immagine e scegliere l'oggetto che fa quel rumore o serve per quell'azione! Sii veloce, divertiti e non aver paura di sbagliare! ✨
+  </p>
+
+  <!-- SEZIONE GIOCO -->
+  <div style="text-align: center; margin-top: 40px;">
+    <h2 class="section-title" style="border-left-color: #ffc300;">❓ Cosa manca? Scegli il Gioco Corretto!</h2>
+  </div >
+
+  <!-- CONTATORE ROUND -->
+   <div id="roundCounter" style="text-align: center; margin: 15px auto; font-size: 1.3em; color: #2ecc71;">
+    Gioco Corrente: <span id="currentRound">0</span> / 8 Oggetti
+  </div >
+
+  <!-- AREA DI GIOCO -->
+  <div class="lyric-box" style="background-color: #e6f7ff; border: 3px dashed #2ecc71;">
+    <p id="gamePrompt" style="font-size: 1.4rem; color: #5c5c5c; margin-bottom: 30px;">
+        <!-- Qui verrà inserita la descrizione del round (es. "Dove saltiamo?") -->
+    </p>
+
+    <!-- AREA BOTTONI GIOCHI - QUESTA È LA ZONA DI CLICK PRINCIPALE -->
+    <div id="wordContainer" class="word-container game-buttons" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; max-width: 95%; min-height: 250px;">
+      <!-- I bottoni dei giochi verranno inseriti qui da JavaScript -->
+    </div>
+
+  </div> <!-- Fine lyric-box per i pulsanti -->
+
+
+  <!-- CONTROLLI DI GIOCO (TOP) -->
+  <div style="text-align: center; margin-top: 30px; gap: 15px;">
+    <button id="checkButton" onclick="checkSelection()" style="background-color: #ff6b6b; color: white; padding: 14px 30px; border: none; border-radius: 25px; cursor: pointer; font-size: 18px; box-shadow: 0 4px #d9534f;" disabled>
+      Verifica Risposta ✅
+    </button>
+    <button id="nextRoundButton" onclick="loadNextRoundFromButton()" style="background-color: #3498db; color: white; padding: 14px 30px; border: none; border-radius: 25px; cursor: pointer; font-size: 18px; box-shadow: 0 4px #2980b9;" disabled>
+      Nuovo Gioco (Avanti) 🚀
+    </button>
+  </div >
+
+  <!-- SEZIONE ISTRUZIONI E CONSIGLI (IN ORIZZONTALE IN BASSO) -->
+  <div style="display: flex; justify-content: space-between; gap: 25px; margin-top: 40px;">
+    
+    <!-- BOX Istruzioni/Feedback -->
+    <div style="flex: 1.5; background-color: #f7e9f8; padding: 25px; border-radius: 15px; border: 3px solid #d4b0ff;">
+      <h4 style="color: #9b59b6; margin-top: 0; font-size: 1.4rem;">🎈 Come Giocare (Guida Super Facile)</h4 >
+      <p class="intro-text" style="font-size: 1em; margin-bottom: 20px;">Basta un occhio e tanta fantasia!</p>
+      <ul style="list-style-type: none; padding-left: 0;">
+        <li style="margin-bottom: 12px;"><span class="step" style="color: #ff6b6b; font-weight: bold; font-size: 1.1em; margin-right: 10px;">🧐</span> **Ascolta/Leggi:** Leggi attentamente l'indizio che appare sopra (lo scopo del gioco).</li >
+        <li style="margin-bottom: 12px;"><span class="step" style="color: #3498db; font-weight: bold; font-size: 1.1em; margin-right: 10px;">👉</span> **Clicca:** Clicca sul pulsante che rappresenta l'oggetto giusto per la domanda!</li>
+        <li style="margin-bottom: 5px;"><span class="step" style="color: #2ecc71; font-weight: bold; font-size: 1.1em; margin-right: 10px;">✅</span> **Verifica:** Se pensi di aver indovinato, premi "Verifica Risposta".</li>
+      </ul>
+    </div >
+
+    <!-- Box Consiglio ADHD -->
+    <div style="flex: 1.5; background-color: #fff9e6; padding: 25px; border-radius: 15px; border: 3px solid #ffcc00;">
+      <h4 style="color: #d35400; margin-top: 0; font-size: 1.4rem;">💡 Boingy-Consiglio Anti-Blocco</h4>
+      <p class="intro-text" style="font-size: 1em; margin-bottom: 20px;">Quando è troppo, fermati! Il cervello ha bisogno di sosta!</p>
+      <ul style="list-style-type: disc; padding-left: 20px; margin-top: 15px; font-size: 16px;">
+        <li>**Regola del 3:** Guarda un oggetto nel parco reale per tre secondi. Non è legato al gioco, solo per riposare i pensieri!</li>
+        <li>**Respiro Lento:** Conta mentalmente fino a cinque mentre inspiri ed espiri. Ricarica la concentrazione e poi ricomincia!</li>
+      </ul >
+    </div >
+
+  </div>
+
+
+</div>
+
+
+<style>
+  /* Stili CSS globali per l'estetica vivace */
+  .boingy-container {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+    color: #333;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fcf7fc; /* Fondo molto chiaro */
+  }
+  .boingy-header {
+    text-align: center;
+    /* Palette vivace e accogliente */
+    background: linear-gradient(135deg, #ff9f43, #ff6b6b); 
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* Ombra più evidente */
+  }
+  /* I titoli devono essere GIGANTI e gioiosi */
+  .section-title {
+      font-size: 1.6rem !important;
+      margin-bottom: 20px;
+      color: #3498db;
+  }
+
+  /* Contenitori dei pulsanti (rende lo spazio più ampio e visibile) */
+  .game-buttons button {
+      background-color: #f1c40f; /* Colore base di Giochi */
+      color: #2c3e50;
+      padding: 18px 35px; /* Aumentato per essere GIGANTI e facili da cliccare */
+      border: 4px solid #e67e22;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 2em; /* Font molto grande con emoji */
+      transition: all 0.15s ease;
+      box-shadow: 0 4px #d35400; /* Ombra fisica che li rende più tattili */
+  }
+
+  /* Stile quando il pulsante viene cliccato (focus) */
+  .game-buttons button.selected {
+      background-color: #3498db; 
+      border-color: #2980b9;
+      transform: scale(1.05);
+      box-shadow: 0 6px #2980b9; /* Ombra più forte */
+  }
+
+  /* Stile di successo/errore visivo (da JS) */
+  .game-buttons button.correct {
+    background-color: #2ecc71 !important;
+    border-color: #29a25d !important;
+    transform: scale(1); /* Torna alla dimensione normale dopo aver mostrato il successo */
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.8) !important;
+  }
+   #checkButton:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+
+</style>
+
+
+<script>
+// --- GESTIONE DATI DI GIOGO (8 Round Garantiti) ---
+/* 
+   Ogni round contiene:
+   1. prompt: La descrizione/domanda per l'utente ("Dove saltiamo?")
+   2. answers: Gli elementi visivi che compongono la scena del parco.
+   3. correctAnswerEmoji: L'emoji (o lo stato) dell'oggetto corretto da scegliere.
+*/
+const gameData = [
+    { 
+        prompt: "❓ Questo attrezzo serve per saltare e fare rumore? 🤸", 
+        answers: ["🧺", "⚽️", "🛝", "🧸"], // Basket, Palla, Scivolo, Orso
+        correctAnswerEmoji: "🛝" 
+    },
+    { 
+        prompt: "❓ Qui possiamo giocare a nascondino e ci copriamo? 🙈", 
+        answers: ["🧺", "⛱️", "⚽️", "🎠"], // Cesto, Ombrellone, Palla, Carosello
+        correctAnswerEmoji: "⛱️" 
+    },
+    { 
+        prompt: "❓ Serve per arrampicarsi e fare un bel percorso difficile! 💪", 
+        answers: ["🌳", "🕸️", "🪢", "🐒"], // Albero, Ragnatela (simbolo di rete), Corda, Scimmia
+        correctAnswerEmoji: "🕸️" 
+    },
+    { 
+        prompt: "❓ Qui facciamo un girotondo con le macchinine e la musica! 🎠", 
+        answers: ["🎡", "🚀", "⛵️", "🚂"], // Altalena/Giostra, Razzo, Barca, Treno
+        correctAnswerEmoji: "🎪" // Usiamo il tendone per simboleggiare l'area circense generale
+    },
+     { 
+        prompt: "❓ Ci servono tanti colori e ci facciamo i graffiti? 🎨", 
+        answers: ["🖌️", "🧼", "🍬", "🧱"], // Pennello, Sapone, Caramella, Mattone
+        correctAnswerEmoji: "🖌️" 
+    },
+    { 
+        prompt: "❓ Dove ci sediamo per fare un picnic e goderci il sole? 🧺☀️", 
+        answers: ["🪑", "🥪", "🌳", "🍉"], // Sedia, Panino, Albero, Melone
+        correctAnswerEmoji: "🍃" 
+    },
+     { 
+        prompt: "❓ Qual è lo strumento che ci serve per spingere il vento? 🌬️", 
+        answers: ["🎈", "🧵", "💧", "☁️"], // Palloncino, Filo, Goccia, Nuvola
+        correctAnswerEmoji: "🎈" 
+    },
+     { 
+        prompt: "❓ Questo gioco è perfetto per saltare e imparare l'equilibrio! 🤸", 
+        answers: ["🪵", "🐸", "🧱", "🚦"], // Tronco, Rana, Mattonella, Semaforo
+        correctAnswerEmoji: "🌳" 
+    }
+];
+
+// --- VARIABILI DI STATO DEL GIOCO ---
+let currentRound = 0;
+let selectedButton = null; // Memorizza il pulsante cliccato per questo round
+
+
+// --- FUNZIONI UTILITY ---
+
+/** Mescola un array di emoji/oggetti */
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/** Popola la griglia dei pulsanti con gli elementi del round corrente */
+function renderPlaygroundButtons(answers) {
+    const container = document.getElementById('wordContainer');
+    container.innerHTML = ''; // Resetta il contenitore
+    selectedButton = null; // Reset selezione
+
+    answers.forEach((emoji, index) => {
+        const button = document.createElement('button');
+        button.textContent = emoji;
+        // Salviamo l'emoji sull'attributo data-value per il confronto logico
+        button.setAttribute('data-value', emoji); 
+        // Reattacca l'handler click per ogni pulsante generato
+        button.onclick = function() { handleButtonClick(this); }; 
+        container.appendChild(button);
+    });
+}
+
+
+// --- LOGICA DEL GIOCO PRINCIPALE ---
+
+/** Gestisce il click su un singolo pulsante oggetto */
+function handleButtonClick(buttonElement) {
+    // Rimuove la classe 'selected' da TUTTI i bottoni per il reset visivo
+    document.querySelectorAll('.game-buttons button').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+
+    // Imposta la selezione e memorizza l'oggetto cliccato
+    selectedButton = buttonElement;
+    buttonElement.classList.add('selected');
+}
+
+
+/** Controlla se il pulsante selezionato è quello corretto per il round */
+function checkSelection() {
+    if (!selectedButton) {
+        alert("⚠️ Devi prima scegliere un gioco! Clicca su un bottone.");
+        return;
+    }
+
+    // Ottiene la risposta corretta per il round corrente (currentRound - 1)
+    const dataIndex = Math.min(currentRound - 1, totalRounds - 1); 
+    const correctEmoji = gameData[dataIndex].correctAnswerEmoji;
+    
+    const selectedValue = selectedButton.getAttribute('data-value');
+
+    if (selectedValue === correctEmoji) {
+        // ✅ CORRETTO!
+        alert(`🌈 BRAVO! Hai trovato il gioco corretto: ${correctEmoji} 🎉 Il Parco Magico ti sorride!`);
+        
+        selectedButton.classList.add('correct'); // Aggiungi effetto di successo permanente
+        document.getElementById('checkButton').style.backgroundColor = '#2ecc71'; 
+        // Dopo un piccolo ritardo, passiamo al round successivo per la celebrazione
+        setTimeout(() => {
+             loadNextRound(true); 
+        }, 1500);
+
+    } else {
+        // ❌ ERRORE!
+        alert(`😢 Oh no... Non è questo l'oggetto giusto. Prova ad osservare meglio i dettagli e ricontrolla!`);
+        selectedButton.classList.remove('correct'); // Rimuovi eventuali evidenziazioni di successo precedenti
+        document.getElementById('checkButton').style.backgroundColor = '#e74c3c'; 
+    }
+}
+
+/** Carica lo stato del gioco per il round successivo */
+function loadNextRound(isSuccess = false) {
+    // 1. Reset dello stato visivo e logico
+    selectedButton = null;
+    document.querySelectorAll('.game-buttons button').forEach(btn => {
+        btn.classList.remove('selected', 'correct');
+    });
+
+    // 2. Incrementa il contatore e controlla se si è finiti i round
+    currentRound++;
+    document.getElementById('roundCounter').textContent = currentRound;
+
+    if (currentRound > totalRounds) {
+        // FINALE DEL GIOCO!
+        const finalMessage = `🌟 COMPLIMENTI! Hai indovinato tutti gli elementi del Parco Magico! La tua fantasia e attenzione sono super poteri! 🏆`;
+        alert(finalMessage);
+
+        document.getElementById('wordContainer').innerHTML = `<h2 style="color: #ff6b6b;">MISSIONE COMPLETATA! 🎉</h2><p class="intro-text" style="font-size: 1.3em; color: #3498db;">${finalMessage}</p>`;
+        document.getElementById('checkButton').style.display = 'none';
+        document.getElementById('nextRoundButton').disabled = true;
+        return;
+    }
+
+    // 3. Ottieni il contenuto del round e mescolalo per la visualizzazione
+    const dataIndex = Math.min(currentRound - 1, totalRounds - 1); 
+    const nextChallengeData = gameData[dataIndex]; 
+    let shuffledAnswers = shuffleArray([...nextChallengeData.answers]);
+
+    // 4. Rendi il gioco attivo e carica i nodi visibili
+    document.getElementById('gamePrompt').textContent = `❓ ${nextChallengeData.prompt}`; // Aggiorna la domanda
+    renderPlaygroundButtons(shuffledAnswers);
+    
+    // Reabilita i pulsanti e resettiamo lo stato dei controlli
+    document.getElementById('checkButton').disabled = true; 
+    document.getElementById('nextRoundButton').disabled = true; 
+}
+
+
+/** Funzione chiamata dal pulsante "Nuovo Gioco" */
+function loadNextRoundFromButton() {
+     loadNextRound();
+}
+
+
+// --- INITIALIZATION CALL (Esecuzione immediata e obbligatoria) ---
+window.onload = function() {
+    console.log("🌈 Script del gioco Parco Magico avviato!"); 
+    loadNextRound(); 
+};
+
+</script>
