@@ -1,0 +1,321 @@
+<div class="boingy-container" style="border: 4px solid #2ecc71;">
+
+  <!-- HEADER STYLISED AFTER EXAMPLE -->
+  <div class="boingy-header">
+    <h1>🗺️ Indovina il Percorso!</h1>
+    <p>🐾 Missione: Aiuta Boingy a trovare la strada giusta!</p>
+  </div >
+
+  <!-- INTRO STYLISED AFTER EXAMPLE -->
+  <p class="intro-text">
+    Ciao Super Detective del Percorso! Oggi useremo i nostri super poteri logici per guidare il nostro amico, Boingy. Il tuo compito è osservare la sequenza di punti e cliccare solo sui nodi giusti, uno dopo l'altro, per seguire il sentiero corretto. 💪
+  </p>
+
+  <!-- SEZIONE GIOCO -->
+  <div style="text-align: center; margin-top: 40px;">
+    <h2 class="section-title" style="border-left-color: #3498db;">📍 Segui i Passaggi Logici!</h2>
+  </div >
+
+  <!-- CONTATORE ROUND -->
+   <div id="roundCounter" style="text-align: center; margin: 15px auto; font-size: 1.3em; color: #e67e22;">
+    Percorso Corrente: <span id="currentRound">0</span> / 10 Tappe
+  </div >
+
+  <!-- AREA DI GIOCO -->
+  <div class="lyric-box" style="background-color: #fffbe6; border: 3px dashed #2ecc71;">
+    <p style="font-size: 1.2rem; color: #5c5c5c; margin-bottom: 20px;">👉 Clicca sui nodi (cerchi) nell'ordine corretto per seguire il sentiero! Non puoi ripetere i click.</p>
+
+    <!-- AREA NODI PERCORSO -->
+    <div id="pathGrid" class="word-container path-grid" style="display: flex; justify-content: space-around; align-items: center; min-height: 200px;">
+      <!-- I nodi cliccabili verranno inseriti qui da JavaScript -->
+    </div>
+
+  </div> <!-- Fine lyric-box per i nodi -->
+
+
+  <!-- CONTROLLI DI GIOCO (TOP) -->
+  <div style="text-align: center; margin-top: 30px; gap: 15px;">
+    <button id="checkButton" onclick="checkPath()" style="background-color: #2ecc71; color: white; padding: 14px 30px; border: none; border-radius: 25px; cursor: pointer; font-size: 18px; box-shadow: 0 4px #27ad62;" disabled>
+      Controlla Percorso ✅
+    </button>
+    <button id="nextRoundButton" onclick="loadNextRoundFromButton()" style="background-color: #3498db; color: white; padding: 14px 30px; border: none; border-radius: 25px; cursor: pointer; font-size: 18px; box-shadow: 0 4px #2980b9;" disabled>
+      Nuova Tappa (Avanti) 🚀
+    </button>
+  </div >
+
+  <!-- SEZIONE ISTRUZIONI E CONSIGLI (IN ORIZZONTALE IN BASSO) -->
+  <div style="display: flex; justify-content: space-between; gap: 25px; margin-top: 40px;">
+    
+    <!-- BOX Istruzioni/Feedback -->
+    <div style="flex: 1.5; background-color: #f7e9f8; padding: 25px; border-radius: 15px; border: 3px solid #d4b0ff;">
+      <h4 style="color: #9b59b6; margin-top: 0; font-size: 1.4rem;">🧭 Come Giocare (Guida per i Super Detective)</h4 >
+      <p class="intro-text" style="font-size: 1em; margin-bottom: 20px;">Ricorda: ogni percorso è unico e ha la sua logica!</p>
+      <ul style="list-style-type: none; padding-left: 0;">
+        <li style="margin-bottom: 12px;"><span class="step" style="color: #ff6b6b; font-weight: bold; font-size: 1.1em; margin-right: 10px;">💡</span> **Osserva:** Guarda l'immagine e pensa al flusso logico (il percorso).</li>
+        <li style="margin-bottom: 12px;"><span class="step" style="color: #3498db; font-weight: bold; font-size: 1.1em; margin-right: 10px;">➡️</span> **Clicca:** Clicca sui punti che devono essere raggiunti in sequenza, uno dopo l'altro!</li>
+        <li style="margin-bottom: 5px;"><span class="step" style="color: #2ecc71; font-weight: bold; font-size: 1.1em; margin-right: 10px;">✅</span> **Controlla:** Quando pensi di aver finito, premi "Controlla Percorso".</li>
+      </ul>
+    </div >
+
+    <!-- Box Consiglio ADHD -->
+    <div style="flex: 1.5; background-color: #fff9e6; padding: 25px; border-radius: 15px; border: 3px solid #ffcc00;">
+      <h4 style="color: #d35400; margin-top: 0; font-size: 1.4rem;">💡 Boingy-Consiglio Anti-Blocco</h4>
+      <p class="intro-text" style="font-size: 1em; margin-bottom: 20px;">Se ti perdi, è normale! Fermarsi aiuta il cervello!</p>
+      <ul style="list-style-type: disc; padding-left: 20px; margin-top: 15px; font-size: 16px;">
+        <li>**Ancoraggio Visivo:** Guarda la cosa più colorata o più grande nel percorso. Quella è spesso l'inizio!</li>
+        <li>**Respiro Logico:** Fai tre respiri profondi prima di cliccare il primo punto. Questo riorganizza i pensieri!</li>
+      </ul>
+    </div >
+
+  </div style="margin-bottom: 30px;">
+
+
+</div>
+
+
+<style>
+  /* Stili CSS globali basati sull'esempio Boingy */
+  .boingy-container {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+    color: #333;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fcf7fc; /* Background più delicato */
+  }
+  .boingy-header {
+    text-align: center;
+    /* Gradiente principale per l'header, come nell'esempio */
+    background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+  .boingy-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+  }
+
+  /* Contenitore nodi percorso */
+  .path-node {
+      display: inline-block; /* Per farli apparire come cerchi separati */
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background-color: #f1c40f; /* Colore base dei nodi */
+      border: 3px solid #e67e22;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em; /* Dimensione dell'emoji */
+  }
+
+  /* Stile quando il nodo viene selezionato (giocatore) */
+  .path-node.selected {
+      background-color: #3498db; /* Blu più intenso per l'azione */
+      border-color: #2980b9;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(52, 152, 216, 0.4);
+  }
+
+  /* Stile per i nodi giusti nel percorso corretto */
+  .path-node.correct {
+      background-color: #2ecc71; /* Verde successo */
+      border-color: #29a25d;
+      transform: scale(1.0);
+      box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+  }
+
+  /* Stili per i pulsanti di controllo */
+  #checkButton {
+    background-color: #2ecc71; /* Verde successo */
+    box-shadow: 0 4px #27ad62;
+  }
+   #checkButton:active {
+    transform: translateY(2px);
+    box-shadow: none;
+    background-color: #29a25d;
+  }
+
+</style>
+
+
+<script>
+// --- GESTIONE DATI DI GIOGO (10 Round Garantiti) ---
+const correctPaths = [
+    // Round 1: Semplice sequenza iniziale
+    { nodes: ["🌳", "🌻", "🏠"], correctOrder: ["🌳", "🌻", "🏠"] },
+
+    // Round 2: Sequenza logica (Dalla casa alla scuola)
+    { nodes: ["🏡", "🚶", "📚", "🎒"], correctOrder: ["🏡", "🚶", "📚", "🎒"] },
+
+    // Round 3: Percorso animale (Dal nido all'albero)
+    { nodes: ["🧺", "🐦", "🌳", "🍃"], correctOrder: ["🧺", "🐦", "🌳", "🍃"] },
+
+    // Round 4: Sequenza dei colori/oggetti (Terra, cielo, sole)
+    { nodes: ["⛰️", "💙", "☀️"], correctOrder: ["⛰️", "💙", "☀️"] },
+
+    // Round 5: Percorso del cibo (Dalla pianta al piatto)
+    { nodes: ["🌿", "🥕", "🍽️"], correctOrder: ["🌿", "🥕", "🍽️"] },
+
+    // Round 6: Sequenza di azioni (Svegliarsi, vestirsi, colazione)
+    { nodes: ["🛏️", "👕", "🍎"], correctOrder: ["🛏️", "👕", "🍎"] },
+
+    // Round 7: Percorso della fauna (Dalle prede ai predatori)
+    { nodes: ["🐇", "🐺", "🦴"], correctOrder: ["🐇", "🐺", "🦴"] },
+
+    // Round 8: Sequenza geografica (Acqua -> Terra -> Montagna)
+    { nodes: ["🌊", "🏝️", "🏔️"], correctOrder: ["🌊", "🏝️", "🏔️"] },
+
+    // Round 9: Percorso creativo (Idea, pennello, quadro)
+    { nodes: ["💭", "🖌️", "🖼️"], correctOrder: ["💭", "🖌️", "🖼️"] },
+
+     // Round 10: Grande sequenza finale!
+    { nodes: ["☀️", "🚶", "🌿", "🏡", "✨"], correctOrder: ["☀️", "🚶", "🌳", "🏠", "🎉"] }
+];
+
+// --- VARIABILI DI STATO DEL GIOCO ---
+let currentRound = 0;
+let userPath = []; // Array che memorizza i nodi cliccati dall'utente
+const totalRounds = correctPaths.length;
+
+
+// --- FUNZIONI UTILITY ---
+
+/** Mescola un array di elementi (shuffle) */
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/** Popola la griglia dei nodi cliccabili */
+function renderPathNodes(nodes) {
+    const container = document.getElementById('pathGrid');
+    container.innerHTML = ''; // Resetta il contenitore
+
+    nodes.forEach((emoji, index) => {
+        const node = document.createElement('div');
+        node.className = 'path-node';
+        node.setAttribute('data-index', index); // Usiamo l'indice come identificatore unico
+        node.textContent = emoji;
+        // Reattacca l'handler click per ogni nodo generato
+        node.onclick = function() { handleNodeClick(this, node); }; 
+        container.appendChild(node);
+    });
+}
+
+
+// --- LOGICA DEL GIOCO PRINCIPALE ---
+
+/** Gestisce il click su un singolo nodo percorso */
+function handleNodeClick(buttonElement, data) {
+    // Non permettere di cliccare nodi già selezionati nel round corrente
+    if (data.classList.contains('selected')) {
+        return; 
+    }
+
+    // Rimuove la classe 'selected' da TUTTI i bottoni per il reset visivo
+    document.querySelectorAll('.path-node').forEach(btn => {
+        btn.classList.remove('selected');
+        btn.style.pointerEvents = 'auto'; // Riabilita tutti
+    });
+
+    // Aggiunge la parola cliccata all'array e al display visivo
+    data.classList.add('selected');
+    userPath.push(data);
+}
+
+
+/** Controlla se l'ordine dei nodi è corretto */
+function checkPath() {
+    if (userPath.length === 0) {
+        alert("⚠️ Clicca almeno un nodo per iniziare il percorso!");
+        return;
+    }
+
+    // Disabilita tutti i pulsanti dopo il check
+    document.querySelectorAll('.path-node').forEach(btn => {
+        btn.disabled = true; // Usiamo l'attributo disabled CSS per bloccare i click
+    });
+
+
+    const attemptedNodes = userPath.map(n => n.getAttribute('data-emoji'));
+    // Ottiene il percorso corretto per il round corrente (currentRound - 1)
+    const dataIndex = Math.min(currentRound - 1, totalRounds - 1); 
+    const correctOrder = correctPaths[dataIndex].correctOrder;
+
+    // Confronto logico: deve avere la stessa lunghezza E ogni elemento in posizione è uguale
+    if (attemptedNodes.length === correctOrder.length && attemptedNodes.every((node, index) => node === correctOrder[index])) {
+        // ✅ CORRETTO!
+        alert(`🌟 SUPER DETECTIVE! Hai seguito il percorso perfetto! ✨ Il sentiero è stato trovato!`);
+        
+        document.getElementById('checkButton').style.backgroundColor = '#2ecc71'; // Verde successo
+        setTimeout(() => {
+             loadNextRound(true); 
+        }, 1500);
+
+    } else {
+        // ❌ ERRORE!
+        alert(`🥺 Oh no! Il percorso è sbagliato. Ricorda: il flusso logico deve essere perfetto! Riprova con calma.`);
+        document.getElementById('checkButton').style.backgroundColor = '#e74c3c'; // Rosso errore
+    }
+}
+
+/** Carica lo stato del gioco per il round successivo */
+function loadNextRound(isSuccess = false) {
+    // 1. Reset dello stato visivo e logico
+    userPath = [];
+    document.querySelectorAll('.path-node').forEach(btn => {
+        btn.classList.remove('selected');
+        btn.style.pointerEvents = 'auto'; // Riabilita tutti i click
+        btn.disabled = false; 
+    });
+
+    // 2. Incrementa il contatore e controlla se si è finiti i round
+    currentRound++;
+    document.getElementById('currentRound').textContent = currentRound;
+
+    if (currentRound > totalRounds) {
+        // FINALE DEL GIOCO!
+        const finalMessage = `🌟 COMPLIMENTI! Hai completato tutte le ${totalRounds} tappe del percorso! Sei un vero Super Detective Logico! 🏆`;
+        alert(finalMessage);
+
+        document.getElementById('pathGrid').innerHTML = `<h2 style="color: #2ecc71;">MISSIONE COMPLETATA! 🎉</h2><p style="font-size: 1.3em; color: #3498db;">${finalMessage}</p>`;
+        document.getElementById('checkButton').style.display = 'none';
+        document.getElementById('nextRoundButton').disabled = true;
+        return;
+    }
+
+    // 3. Ottieni il nuovo percorso e mescola i nodi visibili
+    const dataIndex = Math.min(currentRound - 1, totalRounds - 1); 
+    const nextChallengeData = correctPaths[dataIndex]; 
+    let visibleNodes = shuffleArray([...nextChallengeData.nodes]);
+
+    // 4. Rendi il gioco attivo e carica i nodi visibili
+    renderPathNodes(visibleNodes);
+    document.getElementById('checkButton').disabled = false;
+    document.getElementById('nextRoundButton').disabled = true; 
+}
+
+
+/** Funzione chiamata dal pulsante "Nuova Tappa" */
+function loadNextRoundFromButton() {
+     loadNextRound();
+}
+
+
+// --- INITIALIZATION CALL (Deve essere l'ultima cosa nello script) ---
+window.onload = function() {
+    console.log("🚀 Script del gioco percorso avviato!"); 
+    loadNextRound(); 
+};
+
+</script>
