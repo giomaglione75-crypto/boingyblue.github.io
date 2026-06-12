@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Detective delle Storie</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #fef9c3; display: flex; flex-direction: column; align-items: center; padding: 20px; color: #78350f; }
+        .academy-header { background: #fde68a; padding: 10px 20px; border-radius: 50px; font-weight: bold; margin-bottom: 20px; border: 2px solid #d97706; }
+        .story-box { background: white; padding: 25px; border-radius: 20px; border: 4px solid #f59e0b; max-width: 600px; margin-bottom: 20px; font-size: 1.2rem; line-height: 1.6; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;}
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px; width: 100%; max-width: 600px; }
+        .option-btn { padding: 15px; border-radius: 15px; border: none; background: #fbbf24; color: #78350f; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1.1rem; }
+        .option-btn:hover { background: #f59e0b; transform: scale(1.05); }
+        .feedback { margin-top: 15px; font-weight: bold; color: #166534; font-size: 1.3rem; min-height: 30px; }
+        .reset-btn { margin-top: 20px; padding: 10px 30px; background: #78350f; color: white; border-radius: 10px; border: none; cursor: pointer; }
+        .tip-box { background: #fffbeb; border: 2px solid #fbbf24; padding: 15px; border-radius: 15px; margin-top: 30px; max-width: 500px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <img src="https://raw.githubusercontent.com/giomaglione75-crypto/boingyblue.github.io/e5cb3103735ceaff77d77fb0fa71371ebcaf78a8/logo%20Giochi.png" alt="Logo Accademia" style="width: 140px; margin-bottom: 20px;">
+
+    <h1>🕵️‍♂️ Detective delle Storie</h1>
+    <div class="academy-header">🔤 Accademia delle Parole</div>
+
+    <div class="story-box" id="story">Caricando la storia...</div>
+    <div class="feedback" id="feedback"></div>
+    <div class="options-grid" id="options"></div>
+    <button class="reset-btn" onclick="loadQuestion()">Nuova Storia</button>
+
+    <div class="tip-box">
+        <strong>💡 Boingy-Consiglio:</strong> Leggi lentamente, sei un grande detective!
+    </div>
+
+    <script>
+        const stories = [
+            {
+                text: "Il piccolo gattino correva felice nel prato verde quando improvvisamente ha visto una farfalla colorata volare verso il sole. Cosa ha visto il gattino?",
+                options: [
+                    {text: "Un cane nero 🐕", correct: false},
+                    {text: "Una farfalla 🦋", correct: true},
+                    {text: "Un fiore rosso 🌸", correct: false},
+                    {text: "La sua mamma 🐱", correct: false}
+                ]
+            },
+            {
+                text: "L'orsetto bruno ha trovato un vasetto di miele dorato sotto l'albero grande vicino al fiume. Cosa ha trovato l'orsetto?",
+                options: [
+                    {text: "Delle mele 🍎", correct: false},
+                    {text: "Un pesce 🐟", correct: false},
+                    {text: "Del miele 🍯", correct: true},
+                    {text: "Un palloncino 🎈", correct: false}
+                ]
+            },
+            {
+                text: "La rana salta allegramente nello stagno per cercare una fresca foglia di ninfea su cui riposare. Dove salta la rana?",
+                options: [
+                    {text: "Sulla spiaggia 🏖️", correct: false},
+                    {text: "Nello stagno 💧", correct: true},
+                    {text: "Nel bosco 🌲", correct: false},
+                    {text: "Sulla montagna 🏔️", correct: false}
+                ]
+            }
+        ];
+
+        const compliments = ["Sei un genio! 🌟", "Fantastico, proprio così! 🎉", "Super Detective! 🏆", "Imbattibile! 🚀", "Che intuito brillante! ✨"];
+
+        function loadQuestion() {
+            document.getElementById('feedback').innerText = "";
+            const storyObj = stories[Math.floor(Math.random() * stories.length)];
+            document.getElementById('story').innerHTML = `<strong>${storyObj.text}</strong>`;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            storyObj.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt.text;
+                btn.onclick = () => {
+                    if(opt.correct) {
+                        const comp = compliments[Math.floor(Math.random() * compliments.length)];
+                        document.getElementById('feedback').innerText = comp;
+                        setTimeout(loadQuestion, 1500);
+                    } else {
+                        document.getElementById('feedback').innerText = "Riprova, detective! 🔎";
+                    }
+                };
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
