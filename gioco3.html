@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torre Matematica</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f0f9ff; text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #ff6b6b; }
+        .game-area { display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0; }
+        .block { width: 150px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: bold; font-size: 1.5rem; color: white; cursor: pointer; transition: transform 0.2s; }
+        .boingy-tip { background: #fff3bf; border: 2px solid #fab005; padding: 15px; border-radius: 15px; margin-top: 20px; font-style: italic; }
+        button { padding: 12px 25px; background: #51cf66; border: none; border-radius: 10px; color: white; font-size: 1.1rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <nav style="text-align: center; padding: 20px;">
+      <a href="index.html" style="margin: 0 15px; font-size: 1.2rem;">🏠 Home Accademia</a>
+    </nav>
+
+    <img src="https://raw.githubusercontent.com/giomaglione75-crypto/boingyblue.github.io/e5cb3103735ceaff77d77fb0fa71371ebcaf78a8/logo%20Giochi.png" alt="Logo Boingy" style="max-width: 200px; display: block; margin: 0 auto 20px;">
+
+    <div class="container">
+        <h1>🔢 Accademia dei Numeri: Torre Matematica</h1>
+        <p>Risolvi l'operazione per costruire la tua torre magica!</p>
+
+        <div class="game-area" id="game">
+            <div id="equation" style="font-size: 2rem; margin-bottom: 10px;">? + ? = ?</div>
+            <div id="options" style="display: flex; gap: 10px;"></div>
+        </div>
+
+        <div class="boingy-tip">
+            <strong>Boingy-Consiglio:</strong> Se ti senti agitato prima di rispondere, fai un bel respiro profondo gonfiando la pancia come un palloncino, poi espira lentamente. Sei bravissimo!
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        function nextQuestion() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const answer = num1 + num2;
+            document.getElementById('equation').innerText = `${num1} + ${num2} = ?`;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            const choices = [answer, answer + 2, answer - 1].sort(() => Math.random() - 0.5);
+            
+            choices.forEach(choice => {
+                const btn = document.createElement('div');
+                btn.className = 'block';
+                btn.style.backgroundColor = '#4dabf7';
+                btn.innerText = choice;
+                btn.onclick = () => {
+                    if (choice === answer) {
+                        score++;
+                        alert('Fantastico! Hai aggiunto un blocco alla torre! Punteggio: ' + score);
+                        nextQuestion();
+                    } else {
+                        alert('Ops! Riprova, sei un campione!');
+                    }
+                };
+                optionsDiv.appendChild(btn);
+            });
+        }
+        nextQuestion();
+    </script>
+</body>
+</html>
