@@ -1,311 +1,87 @@
-<div class="boingy-container" style="border: 4px solid #ffc300;">
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .boingy-container { font-family: 'Comic Sans MS', sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; background-color: #f0f7ff; border-radius: 25px; border: 4px solid #ffc300; }
+        .header { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #ff9f43, #ff6b6b); padding: 20px; border-radius: 20px; color: white; gap: 20px; }
+        .mascotte { width: 120px; }
+        .word-btn { background: #f1c40f; border: 2px solid #e67e22; padding: 10px 20px; border-radius: 15px; margin: 5px; cursor: pointer; font-size: 1.2rem; }
+        .word-btn.selected { background: #3498db; color: white; }
+        .game-box { background: white; padding: 20px; border-radius: 20px; margin: 20px 0; border: 3px dashed #3498db; }
+        .action-btns { display: flex; justify-content: center; gap: 10px; }
+        .btn-check { background: #2ecc71; color: white; border: none; padding: 15px 30px; border-radius: 20px; cursor: pointer; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
 
-  <!-- HEADER STYLISED AFTER EXAMPLE -->
-  <div class="boingy-header">
-    <h1 style="font-size: 2.5rem;">🧠 ACCADEMIA LINGUISTICA</h1>
-    <p>💫 Missione: L'Orchestra delle Parole!</p>
-  </div >
-
-  <!-- INTRO STYLISED AFTER EXAMPLE -->
-  <p class="intro-text">
-    Ciao Super Scrittore! Siamo qui per un gioco divertente che ci fa diventare detective del linguaggio. Devi riordinare le parole mescolate per far nascere una frase perfetta e con senso! 💖 Sii preciso, perché solo l'ordine giusto crea la magia delle parole!
-  </p>
-
-  <!-- SEZIONE GIOCO -->
-  <div style="text-align: center; margin-top: 40px;">
-    <h2 class="section-title" style="border-left-color: #e67e22;">🧩 Ordina le Parole per Creare Frasi!</h2>
-  </div >
-
-  <!-- CONTATORE ROUND -->
-   <div id="roundCounter" style="text-align: center; margin: 15px auto; font-size: 1.3em; color: #c0392b;">
-    Round Attuale: <span id="currentRound">1</span> / 10 Sfide
-  </div >
-
-  <!-- MESSAGGIO DI CARICAMENTO/STATUS (DEBUGGING VISIVO) -->
-   <p style="text-align: center; color: #2ecc71; font-weight: bold; padding: 10px; border: 1px solid #d4efdf; background-color: #e6ffeb; margin-bottom: 30px;">
-    🤖 Caricamento Super Scrittore in corso... Le parole appariranno presto! 🚀
-  </p>
-
-
-  <!-- AREA DI GIOCO -->
-  <div class="lyric-box" style="background-color: #fffbe6; border: 3px dashed #ffcc00;">
-    <p style="font-size: 1.2rem; color: #5c5c5c; margin-bottom: 20px;">👉 Clicca sulle parole in sequenza per ricostruire la frase!</p>
-
-    <!-- AREA PAROLE -->
-    <div id="wordContainer" class="word-container" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; max-width: 95%; min-height: 80px;">
-      <!-- I bottoni parole verranno inseriti qui da JavaScript -->
+<div class="boingy-container">
+    <div class="header">
+       <img src="https://raw.githubusercontent.com/giomaglione75-crypto/boingyblue.github.io/main/BOINGYBLUE.png class="mascotte" alt="BoingyBlu">
+        <div>
+            <h1>🧠 ACCADEMIA LINGUISTICA</h1>
+            <p>Missione: L'Orchestra delle Parole!</p>
+        </div>
     </div>
 
-  </div> <!-- Fine lyric-box per le parole -->
+    <div class="game-box">
+        <p>Clicca sulle parole nell'ordine giusto:</p>
+        <div id="wordContainer"></div>
+        <hr>
+        <p><strong>La Tua Frase:</strong> <span id="displayFrase" style="font-weight:bold; color:#2980b9;"></span></p>
+    </div>
 
-
-  <!-- CONTROLLI DI GIOCO (TOP) -->
-  <div style="text-align: center; margin-top: 30px; gap: 15px;">
-    <button id="checkButton" onclick="checkSentence()" style="background-color: #2ecc71; color: white; padding: 14px 30px; border: none; border-radius: 25px; cursor: pointer; font-size: 18px; box-shadow: 0 4px #27ad62;" disabled>
-      Controlla Frase ✅
-    </button>
-    <button id="nextRoundButton" onclick="loadNextRoundFromButton()" style="background-color: #3498db; color: white; padding: 14px 30px; border: none; border-radius: 25px; cursor: pointer; font-size: 18px; box-shadow: 0 4px #2980b9;" disabled>
-      Nuova Sfida (Avanti) 🚀
-    </button>
-  </div >
-
-  <!-- SEZIONE ISTRUZIONI E CONSIGLI (IN ORIZZONTALE IN BASSO) -->
-  <div style="display: flex; justify-content: space-between; gap: 25px; margin-top: 40px;">
-    
-    <!-- BOX Istruzioni/Feedback -->
-    <div style="flex: 1.5; background-color: #f7e9f8; padding: 25px; border-radius: 15px; border: 3px solid #d4b0ff;">
-      <h4 style="color: #9b59b6; margin-top: 0; font-size: 1.4rem;">🖍️ Come Giocare (Guida per i Super Scrittori)</h4 >
-      <p class="intro-text" style="font-size: 1em; margin-bottom: 20px;">Ricorda: devi ricostruire la frase nel miglior ordine!</p>
-      <ul style="list-style-type: none; padding-left: 0;">
-        <li style="margin-bottom: 12px;"><span class="step" style="color: #ff6b6b; font-weight: bold; font-size: 1.1em; margin-right: 10px;">💡</span> **Pensa:** Quale è il soggetto? Cosa fa? (L'ordine è la chiave!)</li >
-        <li style="margin-bottom: 12px;"><span class="step" style="color: #3498db; font-weight: bold; font-size: 1.1em; margin-right: 10px;">➡️</span> **Clicca:** Clicca sulle parole nell'ordine che ti sembra giusto, una dopo l'altra!</li >
-        <li style="margin-bottom: 5px;"><span class="step" style="color: #2ecc71; font-weight: bold; font-size: 1.1em; margin-right: 10px;">✅</span> **Controlla:** Quando hai finito, premi "Controlla Frase" per scoprire se l'ordine è perfetto!</li >
-      </ul>
-    </div >
-
-    <!-- Box Consiglio ADHD -->
-    <div style="flex: 1.5; background-color: #fff9e6; padding: 25px; border-radius: 15px; border: 3px solid #ffcc00;">
-      <h4 style="color: #d35400; margin-top: 0; font-size: 1.4rem;">💡 Boingy-Consiglio Anti-Blocco</h4 >
-      <p class="intro-text" style="font-size: 1em; margin-bottom: 20px;">Se ti senti confuso, fermati! È un superpotere!</p>
-      <ul style="list-style-type: disc; padding-left: 20px; margin-top: 15px; font-size: 16px;">
-        <li>**La Pausa Magica:** Chiudi gli occhi per due secondi. Conta mentalmente fino a dieci (1...2...3...).</li>
-        <li>**Il Primo Passo:** Ricordati sempre di chi parla o cosa fa la prima! (Chi? -> Soggetto).</li>
-      </ul>
-    </div >
-
-  </div style="margin-bottom: 30px;">
-
-
+    <div class="action-btns">
+        <button class="btn-check" onclick="checkSentence()">Controlla Frase ✅</button>
+        <button class="btn-check" style="background:#3498db" onclick="initGame()">Nuova Sfida 🚀</button>
+    </div>
 </div>
 
-
-<style>
-  /* Stili CSS globali basati sull'esempio Boingy */
-  .boingy-container {
-    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
-    color: #333;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fcf7fc; /* Background più delicato */
-  }
-  .boingy-header {
-    text-align: center;
-    /* Gradiente principale per l'header, come nell'esempio */
-    background: linear-gradient(135deg, #ff9f43, #ff6b6b);
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  }
-  .boingy-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.15);
-  }
-
-  /* Contenitore parole */
-  .word-container button {
-      background-color: #f1c40f; /* Giallo accattivante */
-      color: #2c3e50;
-      padding: 8px 15px;
-      border: 2px solid #e67e22;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: all 0.2s ease;
-  }
-
-  /* Stile quando la parola viene selezionata */
-  .word-container button.selected {
-      background-color: #3498db; /* Blu più intenso per l'azione */
-      color: white;
-      border-color: #2980b9;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(52, 152, 216, 0.4);
-  }
-
-  /* Stili per i pulsanti di controllo */
-  #checkButton {
-    background-color: #2ecc71; /* Verde successo */
-    box-shadow: 0 4px #27ad62;
-  }
-   #checkButton:active {
-    transform: translateY(2px);
-    box-shadow: none;
-    background-color: #29a25d;
-  }
-
-</style>
-
-
 <script>
-// --- GESTIONE DATI DI GIOGO (10 Round Garantiti) ---
-const correctSentences = [
-    // Round 1: Soggetto - Verbo - Complemento di Tempo
-    { words: ["il", "gatto", "dorme", "sul", "divano"], correctOrder: ["Il", "gatto", "dorme", "sul", "divano"] },
-
-    // Round 2: Domanda interrogativa (Quando + Verbo)
-    { words: ["quando", "arriverai", "tu", "domani?"], correctOrder: ["Quando", "arriverai", "tu", "domani?"] },
+    const frasi = [
+        ["Il", "gatto", "dorme", "sul", "divano"],
+        ["Marco", "legge", "un", "libro", "bello"],
+        ["I", "bambini", "giocano", "nel", "parco"]
+    ];
     
-    // Round 3: Soggetto composto - Verbo Ausiliare Composto (Grammatica)
-    { words: ["marco", "e", "giulia", "hanno", "letto", "un", "libro"], correctOrder: ["Marco", "e", "Giulia", "hanno", "letto", "un", "libro"] },
+    let currentFrase = [];
+    let selectedWords = [];
 
-    // Round 4: Ordine temporale (Sequenza di eventi)
-    { words: ["dobbiamo", "prima", "mangiare", "la", "colazione"], correctOrder: ["Dobbiamo", "prima", "mangiare", "la", "colazione"] },
-
-    // Round 5: Specificazione del colore/oggetto
-    { words: ["con", "un", "fiore", "di", "rosa", "bellissima"], correctOrder: ["Con", "un", "fiore", "di", "rosa", "bellissima"] },
-
-    // Round 6: Descrizione con aggettivi multipli e verbo copulativo
-    { words: ["la", "casa", "grande", "rossa", "e", "bella"], correctOrder: ["La", "casa", "grande", "rossa", "è", "bella"] },
-
-    // Round 7: Azione e luogo (Azione + Luogo)
-    { words: ["i", "bambini", "stanno", "giocando", "nel", "parco"] , correctOrder: ["I", "bambini", "stanno", "giocando", "nel", "parco"] },
-
-    // Round 8: Connettivi e Coordinazione
-    { words: ["ho", "mangiato", "la", "mela", "e", "ho", "bevuto", "il", "succo"], correctOrder: ["Ho", "mangiato", "la", "mela", "e", "ho", "bevuto", "il", "succo"] },
-
-    // Round 9: Ordine di un processo (Passaggi logici)
-    { words: ["prima", "di", "andare", "a", "scuola", "devi", "vestirti"], correctOrder: ["Prima", "di", "andare", "a", "scuola", "devi", "vestirti"] },
-
-     // Round 10: Frase complessa (Dimostrazione)
-    { words: ["mi", "hai", "chiamato", "perché", "?", "dimmi"], correctOrder: ["Dimmi", "perché", "mi", "hai", "chiamato"?"] }
-];
-
-// --- VARIABILI DI STATO DEL GIOCO ---
-let currentRound = 0;
-let currentAttemptedWords = [];
-const totalRounds = correctSentences.length;
-
-
-// --- FUNZIONI UTILITY ---
-
-/** Mescola un array (algoritmo standard shuffle) */
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-/** Popola la griglia di pulsanti con le parole mescolate */
-function renderWordButtons(scrambledWords) {
-    const container = document.getElementById('wordContainer');
-    container.innerHTML = ''; // Resetta il contenitore
-
-    scrambledWords.forEach((word, index) => {
-        const button = document.createElement('button');
-        button.textContent = word;
-        button.setAttribute('data-word', word);
-        // Reattacca l'handler click per ogni pulsante generato
-        button.onclick = function() { handleWordClick(this); }; 
-        container.appendChild(button);
-    });
-}
-
-
-// --- LOGICA DEL GIOCO PRINCIPALE ---
-
-/** Gestisce il click su un singolo pulsante parola */
-function handleWordClick(buttonElement) {
-    if (currentAttemptedWords.includes(buttonElement)) {
-        return; 
-    }
-
-    document.querySelectorAll('.word-container button').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-
-    // Aggiunge la parola cliccata all'array e al display visivo
-    currentAttemptedWords.push(buttonElement);
-    buttonElement.classList.add('selected');
-}
-
-
-/** Controlla se l'ordine delle parole è corretto */
-function checkSentence() {
-    if (currentAttemptedWords.length === 0) {
-        alert("⚠️ Scegli almeno una parola prima di controllare!");
-        return;
-    }
-
-    const attemptedWords = currentAttemptedWords.map(btn => btn.getAttribute('data-word'));
-    // Ottiene l'ordine corretto per il round corrente (currentRound - 1)
-    const dataIndex = Math.min(currentRound - 1, totalRounds - 1); 
-    const correctOrder = correctSentences[dataIndex].correctOrder;
-
-    // Disabilita tutti i pulsanti dopo il check (per forzare la lettura del risultato)
-    document.querySelectorAll('.word-container button').forEach(btn => {
-        btn.disabled = true;
-    });
-
-
-    if (attemptedWords.length === correctOrder.length && attemptedWords.every((word, index) => word === correctOrder[index])) {
-        // ✅ CORRETTO!
-        alert(`🎉 ECCELLENTE! Hai formato la frase corretta: "${correctOrder.join(' ')}". Sei un linguista super-dotato! 📚✨`);
+    function initGame() {
+        currentFrase = frasi[Math.floor(Math.random() * frasi.length)];
+        let mescolate = [...currentFrase].sort(() => Math.random() - 0.5);
         
-        document.getElementById('checkButton').style.backgroundColor = '#2ecc71'; // Verde successo
-        setTimeout(() => {
-             loadNextRound(true); // Passa al prossimo round dopo un ritardo visivo
-        }, 1500);
+        const container = document.getElementById('wordContainer');
+        container.innerHTML = '';
+        selectedWords = [];
+        document.getElementById('displayFrase').innerText = '';
 
-    } else {
-        // ❌ ERRORE!
-        alert(`🥺 Ops! L'ordine non è corretto. Ricorda: la frase deve avere senso! Riprova con calma.`);
-        document.getElementById('checkButton').style.backgroundColor = '#e74c3c'; // Rosso errore
-    }
-}
-
-/** Carica lo stato del gioco per il round successivo */
-function loadNextRound(isSuccess = false) {
-    // 1. Reset dello stato
-    currentAttemptedWords = [];
-    document.querySelectorAll('.word-container button').forEach(btn => {
-        btn.classList.remove('selected');
-        btn.disabled = false; // Riabilita i pulsanti
-    });
-
-    // 2. Incrementa il contatore e controlla se si è finiti i round
-    currentRound++;
-    document.getElementById('currentRound').textContent = currentRound;
-
-    if (currentRound > totalRounds) {
-        // FINALE DEL GIOCO!
-        const finalMessage = `🌟 COMPLIMENTI! Hai completato tutte le ${totalRounds} sfide linguistiche! La tua mente è un vero super-motore di parole! 🏆`;
-        alert(finalMessage);
-
-        document.getElementById('wordContainer').innerHTML = `<h2 style="color: #2ecc71;">MISSIONE COMPLETATA! 🎉</h2><p style="font-size: 1.3em; color: #3498db;">${finalMessage}</p>`;
-        document.getElementById('checkButton').style.display = 'none';
-        document.getElementById('nextRoundButton').disabled = true;
-        return;
+        mescolate.forEach(w => {
+            let btn = document.createElement('button');
+            btn.className = 'word-btn';
+            btn.innerText = w;
+            btn.onclick = () => {
+                selectedWords.push(w);
+                btn.style.display = 'none';
+                document.getElementById('displayFrase').innerText = selectedWords.join(' ');
+            };
+            container.appendChild(btn);
+        });
     }
 
-    // 3. Ottieni la nuova frase e mescolala
-    const dataIndex = Math.min(currentRound - 1, totalRounds - 1); // Sicurezza per non superare l'array
-    const nextChallengeData = correctSentences[dataIndex]; 
-    let scrambledWords = shuffleArray([...nextChallengeData.words]);
+    function checkSentence() {
+        if (selectedWords.join(' ') === currentFrase.join(' ')) {
+            alert("🎉 Bravissimo! Hai composto la frase perfetta!");
+            initGame();
+        } else {
+            alert("❌ Non è ancora corretto, riprova!");
+            selectedWords = [];
+            initGame();
+        }
+    }
 
-    // 4. Rendi il gioco attivo
-    renderWordButtons(scrambledWords);
-    document.getElementById('checkButton').disabled = false;
-    document.getElementById('nextRoundButton').disabled = true; // Disabilita fino al prossimo round
-}
-
-
-/** Funzione chiamata dal pulsante "Nuova Sfida" */
-function loadNextRoundFromButton() {
-     loadNextRound();
-}
-
-
-// --- INITIALIZATION CALL (Esecuzione immediata e obbligatoria) ---
-// Chiamiamo la funzione appena lo script è caricato.
-window.onload = function() {
-    console.log("🚀 Script del gioco linguistico avviato!"); // Questo messaggio deve apparire nel tuo console browser per confermare il funzionamento.
-    loadNextRound(); 
-};
-
+    initGame();
 </script>
+
+</body>
+</html>
